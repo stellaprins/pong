@@ -1,3 +1,7 @@
+import pygame
+from pathlib import Path
+import os
+
 # Colors
 BLUE = (86, 156, 214)        
 YELLOW = (229, 192, 123)     
@@ -19,4 +23,8 @@ FPS = 60
 against_computer = True
 
 
-
+def font_path():
+    """By Riciery Leal, https://www.dafont.com/vcr-osd-mono.font"""
+    root_dir = Path(__file__).parent.parent
+    font_path = root_dir / "font" / "VCR_OSD_MONO_1.001.ttf"
+    return font_path

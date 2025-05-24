@@ -1,6 +1,12 @@
 from pong.states import Game
 import pygame
+import asyncio
 
-if __name__ == "__main__":
+async def main():
     Game().run()
     pygame.quit()
+    await asyncio.sleep(0)
+    
+
+asyncio.run(main())
+    

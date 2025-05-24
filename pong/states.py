@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
 import copy
-from pong.config import WIDTH, HEIGHT, BAR_HEIGHT, BAR_WIDTH, OFFSET, GREEN, BLUE, YELLOW, BLACK, FPS, PURPLE, AQUA, WHITE
+from pong.config import WIDTH, HEIGHT, BAR_HEIGHT, BAR_WIDTH, OFFSET, GREEN, BLUE, YELLOW, BLACK, FPS, PURPLE, AQUA, WHITE, font_path
 from pong.objects import Player, Ball
 from pong.utils import mid
 from pong.sounds import load_sounds
@@ -10,12 +10,13 @@ class Game:
     def __init__(self):
         self.against_computer = True
         pygame.init()
-        pygame.display.set_caption("Ping Pong")
+        pygame.display.set_caption("Pong")
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
         self.sounds = load_sounds()
+        self.font = font_path()
         self.running = True
-        self.state = "ready"  # can be "ready", "playing", "winner"
+        self.state = "ready"  
         self.setup_players()
         self.start_tick = pygame.time.get_ticks()
         self.winner_player = None
@@ -59,7 +60,7 @@ class Game:
     def ready_state(self):
         self.sounds["get_ready"].play(loops=-1)
         self.screen.fill(BLACK)
-        font = pygame.font.SysFont(None, 250)
+        font = pygame.font.Font(self.font, 250)
         ready_text = font.render("READY?!", True, PURPLE)
         ready_text.set_alpha(100)
         self.screen.blit(ready_text, (WIDTH // 2 - ready_text.get_width() // 2,
@@ -205,7 +206,7 @@ class Game:
                 color = colors[color_index % len(colors)]
                 pygame.draw.circle(self.screen, color, (int(ball_x), int(ball_y)), 10)
                 color_index = (color_index + 1) % len(colors)
-            font = pygame.font.SysFont(None, 150)
+            font = pygame.font.Font(self.font, 100)
             winner_text = font.render(self.winner_player.text, True, self.winner_player.color)
             text_rect = winner_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
             bg_surface = pygame.Surface((text_rect.width + 40, text_rect.height + 20), pygame.SRCALPHA)

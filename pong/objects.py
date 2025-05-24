@@ -1,7 +1,8 @@
 import pygame
 import random
-from pong.config import HEIGHT, WIDTH, FPS
+from pong.config import HEIGHT, WIDTH, font_path
 import numpy as np
+
 
 class Player:
     def __init__(self, x, y, width, height, speed, color):
@@ -18,6 +19,7 @@ class Player:
         self.dir = 0
         self.score = 0
         self.winner = False
+        self.font = font_path()
     
     def display(self,screen):
         self.draw_bar = pygame.draw.rect(screen, self.color, self.bar)
@@ -30,8 +32,8 @@ class Player:
             self.y = HEIGHT-self.height
         self.bar = (self.x, self.y, self.width, self.height)
 
-    def show_score(self, screen, x, y, color, size=350, alpha=80):
-        font = pygame.font.Font(None, size)
+    def show_score(self, screen, x, y, color, size=200, alpha=80):
+        font = pygame.font.Font(self.font, size)
         text = font.render(str(self.score), True, color)
         text.set_alpha(alpha)
         text_rect = text.get_rect()
@@ -47,7 +49,7 @@ class Player:
             end_x, end_y = WIDTH // 2, HEIGHT // 2
             interp_x = int(x + (end_x - x) * t)
             interp_y = int(y + (end_y - y) * t)
-            font = pygame.font.Font(None, size)
+            font = pygame.font.Font(self.font, size)
             text = font.render(str(self.score), True, color)
             text.set_alpha(alpha)
             text_rect = text.get_rect()
@@ -82,7 +84,7 @@ class Player:
     def performance_variation(self, ball):
         """For automove"""
         if ball.x < WIDTH//2 and ball.x_dir < 0 and self.switch_speed is False:
-            variation = 1 + np.random.normal(0, 0.1)
+            variation = 1 + np.random.normal(0.2, 0.2)
             self.speed = self.init_speed * variation
             self.switch_speed = True
             
